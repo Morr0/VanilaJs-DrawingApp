@@ -5,6 +5,7 @@ let context = canvas.getContext("2d");
 
 // Elements 
 let range;
+let colourPicker;
 
 // States
 let drawing = false;
@@ -41,17 +42,11 @@ function mouseDown(event){
 }
 
 function mouseUp(){
-    console.log("removing event");
     drawing = false;
     // context.closePath();
-    console.log(drawing);
 
     canvas.removeEventListener("mouseup", mouseUp);
     context = undefined;
-}
-
-function modeChanged(){
-    console.log("Changed mode");
 }
 
 ///
@@ -62,16 +57,22 @@ window.addEventListener("load", () => {
     // 
 
     range = document.getElementById("range");
+    colourPicker = document.getElementById("colourPicker");
 
     // 
     context.lineCap = "round";
 
     // Set event listeners
 
-    range.addEventListener("input", (e) => {
-        console.log(e);
-        userPrefs.size = Number.parseInt(e.target.value);
+    range.addEventListener("input", (event) => {
+        userPrefs.size = Number.parseInt(event.target.value);
         canvas.getContext("2d").lineWidth = userPrefs.size;
+    });
+
+    colourPicker.addEventListener("input", (event) => {
+        userPrefs.colour = event.target.value;
+        console.log(event.target);
+        canvas.getContext("2d").strokeStyle = userPrefs.colour;
     });
 
     canvas.addEventListener("mousedown", mouseDown, false);
