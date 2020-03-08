@@ -1,3 +1,21 @@
+const userPrefTemp = {
+    size: 8,
+    // Hexidecimal in string
+    colour: "black"
+}
+
+const USER_PREFS = "USER_PREFS";
+
+function getUserPrefs(){
+    return JSON.parse(localStorage.getItem(USER_PREFS)) || userPrefTemp;
+}
+
+function setUserPrefs(userPrefs){
+    localStorage.setItem(USER_PREFS, JSON.parse(userPrefs));
+}
+
+// import "./util"
+
 const canvas = document.getElementById("canv");
 const context = canvas.getContext('2d');
 
@@ -12,7 +30,7 @@ let dragMode = false;
 // Preferences
 let size = 8;
 let colour = "black";
-let userPrefs = undefined;
+let userPrefs = userPrefTemp;
 
 function sizeCanvas(){
     canvas.width = window.innerWidth;
@@ -53,8 +71,6 @@ function draw(event){
 }
 
 function mouseDown(event){
-    context.lineWidth = userPrefs.size;
-
     if (dragMode){
         console.log("mouseDown");
         drawing = true;
@@ -78,26 +94,6 @@ function mouseUp(){
 
 ///
 
-
-
-const userPrefTemp = {
-    size: 8,
-    // Hexidecimal in string
-    colour: "black"
-}
-
-const USER_PREFS = "USER_PREFS";
-
-function getUserPrefs(){
-    return JSON.parse(localStorage.getItem(USER_PREFS)) || userPrefTemp;
-}
-
-function setUserPrefs(userPrefs){
-    localStorage.setItem(USER_PREFS, JSON.parse(userPrefs));
-}
-
-///
-
 window.addEventListener("load", () => {
     sizeCanvas();
 
@@ -115,7 +111,12 @@ window.addEventListener("load", () => {
     clickModeButton.addEventListener("click", () => dragMode = false);
     dragModeButton.addEventListener("click", () => dragMode = true);
 
-    range.addEventListener("input", () => userPrefs.size = Number.parseInt(range.value));
+    range.addEventListener("input", (e) => {
+        console.log(e);
+        userPrefs.size = Number.parseInt(e.target.value);
+        context.lineWidth = userPrefs.size;
+        console.log(context.lineWidth);
+    });
 
     canvas.addEventListener("click", toggleDrawing);
     canvas.addEventListener("mousedown", mouseDown);

@@ -1,2 +1,15 @@
+export default class Observable{
+    constructor (object, callback){
+        this.object = object;
+        this.callback = callback;
+    }
 
-// export {ObservableBoolean}
+    set(object){
+        this.object = object;
+        this.callback();
+    }
+
+    get get(){
+        return this.callback();
+    }
+}

@@ -8,8 +8,11 @@ canvas {
 }
 
 #toolbar {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
     border-bottom: black 1px solid;
-    margin: 1rem;
+    padding: 1rem;
 }
 
 .itemgroup {
