@@ -7,6 +7,9 @@ let context = canvas.getContext("2d");
 let range;
 let colourPicker;
 
+// Fake cursor
+let cursor;
+
 // States
 let drawing = false;
 
@@ -26,6 +29,10 @@ function draw(event){
 }
 
 function mouseMoving(event){
+    console.log(cursor);
+    cursor.setAttribute("style", `top: ${event.pageY}px;
+                                  left: ${event.pageX}px;`);
+
     if (drawing){
         draw(event);
     }
@@ -43,21 +50,20 @@ function mouseDown(event){
 
 function mouseUp(){
     drawing = false;
-    // context.closePath();
 
     canvas.removeEventListener("mouseup", mouseUp);
     context = undefined;
 }
 
-///
-
 window.addEventListener("load", () => {
     sizeCanvas();
+    console.log(document.body.style.cursor);
 
     // 
 
     range = document.getElementById("range");
     colourPicker = document.getElementById("colourPicker");
+    cursor = document.getElementById("cursor");
 
     // 
     context.lineCap = "round";
@@ -71,7 +77,6 @@ window.addEventListener("load", () => {
 
     colourPicker.addEventListener("input", (event) => {
         userPrefs.colour = event.target.value;
-        console.log(event.target);
         canvas.getContext("2d").strokeStyle = userPrefs.colour;
     });
 
