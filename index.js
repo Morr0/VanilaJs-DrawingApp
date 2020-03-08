@@ -21,13 +21,20 @@ function sizeCanvas(){
 function toggleDrawing(event){
     drawing = !drawing;
 
-    if (drawing)
-        draw(event);
-    else
-        context.beginPath();
+    if (!dragMode){
+        if (drawing)
+            clickModeDraw(event);
+        else
+            context.beginPath();
+    }
 }
 
-function draw(event){
+function dragModeDraw(event){
+    context.lineTo(event.clientX, event.clientY);
+    context.stroke();
+}
+
+function clickModeDraw(event){
     if (drawing){
         // event.preventDefault();
         const x = event.clientX;
@@ -36,7 +43,7 @@ function draw(event){
     
         context.lineTo(x, y);
         context.stroke();
-        context.beginPath();
+        // context.beginPath();
         context.moveTo(x, y);
     }
 }
@@ -46,6 +53,26 @@ function changedPreferences(){
     userPrefs = getUserPrefs();
     context.lineWidth = userPrefs.size;
     context.strokeStyle = userPrefs.colour;
+}
+
+function mouseDown(event){
+    if (dragMode){
+        console.log("mouseDown");
+        drawing = true;
+
+        context.beginPath();
+        context.moveTo(event.clientX, event.clientY);
+        
+        canvas.addEventListener("mouseup", mouseUp);
+    }
+}
+
+function mouseUp(){
+    if (dragMode){
+        console.log("mouseUp");
+        drawing = false;
+        context.closePath();
+    }
 }
 
 ///
@@ -87,5 +114,6 @@ window.addEventListener("load", () => {
     dragModeButton.addEventListener("click", () => dragMode = true);
 
     canvas.addEventListener("click", toggleDrawing);
-    canvas.addEventListener("mousemove", draw);
+    canvas.addEventListener("mousedown", mouseDown);
+    canvas.addEventListener("mousemove", clickModeDraw);
 });
