@@ -3,6 +3,7 @@ const context = canvas.getContext('2d');
 
 // Elements 
 let clickModeButton = undefined, dragModeButton = undefined;
+let range = undefined;
 
 // States
 let drawing = false;
@@ -23,7 +24,7 @@ function toggleDrawing(event){
 
     if (!dragMode){
         if (drawing)
-            clickModeDraw(event);
+            draw(event);
         else
             context.beginPath();
     }
@@ -34,35 +35,33 @@ function dragModeDraw(event){
     context.stroke();
 }
 
-function clickModeDraw(event){
+function draw(event){
     if (drawing){
-        // event.preventDefault();
-        const x = event.clientX;
-        const y = event.clientY;
-        // console.log(`x: ${x} and y: ${y}`);
-    
-        context.lineTo(x, y);
-        context.stroke();
-        // context.beginPath();
-        context.moveTo(x, y);
+        if (!dragMode){
+            // event.preventDefault();
+            const x = event.clientX;
+            const y = event.clientY;
+            // console.log(`x: ${x} and y: ${y}`);
+
+            context.lineTo(x, y);
+            context.stroke();
+            // context.beginPath();
+            context.moveTo(x, y);
+        } else 
+            dragModeDraw(event);
     }
 }
 
-// To be called whenever a user preference has been changed or when loading the canvas
-function changedPreferences(){
-    userPrefs = getUserPrefs();
-    context.lineWidth = userPrefs.size;
-    context.strokeStyle = userPrefs.colour;
-}
-
 function mouseDown(event){
+    context.lineWidth = userPrefs.size;
+
     if (dragMode){
         console.log("mouseDown");
         drawing = true;
 
         context.beginPath();
         context.moveTo(event.clientX, event.clientY);
-        
+
         canvas.addEventListener("mouseup", mouseUp);
     }
 }
@@ -72,6 +71,8 @@ function mouseUp(){
         console.log("mouseUp");
         drawing = false;
         context.closePath();
+
+        canvas.removeEventListener("mouseup", mouseUp);
     }
 }
 
@@ -99,11 +100,12 @@ function setUserPrefs(userPrefs){
 
 window.addEventListener("load", () => {
     sizeCanvas();
-    changedPreferences();
 
     // 
     clickModeButton = document.getElementById("clickMode");
     dragModeButton = document.getElementById("dragMode");
+
+    range = document.getElementById("range");
 
     // 
     context.lineCap = "round";
@@ -113,7 +115,9 @@ window.addEventListener("load", () => {
     clickModeButton.addEventListener("click", () => dragMode = false);
     dragModeButton.addEventListener("click", () => dragMode = true);
 
+    range.addEventListener("input", () => userPrefs.size = Number.parseInt(range.value));
+
     canvas.addEventListener("click", toggleDrawing);
     canvas.addEventListener("mousedown", mouseDown);
-    canvas.addEventListener("mousemove", clickModeDraw);
+    canvas.addEventListener("mousemove", draw);
 });
