@@ -3,6 +3,17 @@ body {
 }
 
 canvas {   
-    width: 95vw;
-    height: 100vh;
+    width: 100%;
+    height: 90%;
+}
+
+#toolbar {
+    border-bottom: black 1px solid;
+    margin: 1rem;
+}
+
+.itemgroup {
+    padding: 1rem;
+    background-color: #d8d1d1;
+    width: fit-content;
 }

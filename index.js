@@ -1,31 +1,21 @@
-
 const canvas = document.getElementById("canv");
 const context = canvas.getContext('2d');
 
+// Elements 
+let clickModeButton = undefined, dragModeButton = undefined;
+
 // States
 let drawing = false;
+let dragMode = false;
 
 // Preferences
 let size = 8;
 let colour = "black";
 let userPrefs = undefined;
 
-window.addEventListener("load", () => {
-    sizeCanvas();
-    changedPreferences();
-
-    // 
-    context.lineCap = "round";
-
-    // Set event listeners
-
-    canvas.addEventListener("click", toggleDrawing);
-    canvas.addEventListener("mousemove", draw);
-});
-
 function sizeCanvas(){
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = window.innerHeight * 9/10;
 }
 
 function toggleDrawing(event){
@@ -58,7 +48,6 @@ function changedPreferences(){
     context.strokeStyle = userPrefs.colour;
 }
 
-
 ///
 
 
@@ -79,4 +68,24 @@ function setUserPrefs(userPrefs){
     localStorage.setItem(USER_PREFS, JSON.parse(userPrefs));
 }
 
-export {userPrefTemp, setUserPrefs, getUserPrefs}
+///
+
+window.addEventListener("load", () => {
+    sizeCanvas();
+    changedPreferences();
+
+    // 
+    clickModeButton = document.getElementById("clickMode");
+    dragModeButton = document.getElementById("dragMode");
+
+    // 
+    context.lineCap = "round";
+
+    // Set event listeners
+
+    clickModeButton.addEventListener("click", () => dragMode = false);
+    dragModeButton.addEventListener("click", () => dragMode = true);
+
+    canvas.addEventListener("click", toggleDrawing);
+    canvas.addEventListener("mousemove", draw);
+});
