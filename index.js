@@ -74,8 +74,7 @@ window.addEventListener("load", () => {
     colourPicker.addEventListener("input", (event) => {
         userPrefs.colour = event.target.value;
         canvas.getContext("2d").strokeStyle = userPrefs.colour;
-        cursor.setAttribute("style", `backgroundColor: #${userPrefs.colour};`);
-        console.log(cursor.style);
+        cursor.style.backgroundColor = userPrefs.colour;
     });
 
     // Show cursor when inside canvas else hide
