@@ -28,6 +28,6 @@ canvas {
     height: 2rem;
     position: absolute;
     border: 1px solid black;
-    background-color: black;
+    background-color: #000000;
     border-radius: 50%;
 }

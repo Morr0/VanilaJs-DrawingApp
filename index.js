@@ -29,7 +29,6 @@ function draw(event){
 }
 
 function mouseMoving(event){
-    console.log(cursor);
     cursor.setAttribute("style", `top: ${event.pageY}px;
                                   left: ${event.pageX}px;`);
 
@@ -57,9 +56,6 @@ function mouseUp(){
 
 window.addEventListener("load", () => {
     sizeCanvas();
-    console.log(document.body.style.cursor);
-
-    // 
 
     range = document.getElementById("range");
     colourPicker = document.getElementById("colourPicker");
@@ -78,6 +74,16 @@ window.addEventListener("load", () => {
     colourPicker.addEventListener("input", (event) => {
         userPrefs.colour = event.target.value;
         canvas.getContext("2d").strokeStyle = userPrefs.colour;
+        cursor.setAttribute("style", `backgroundColor: #${userPrefs.colour};`);
+        console.log(cursor.style);
+    });
+
+    // Show cursor when inside canvas else hide
+    canvas.addEventListener("mouseenter", () => {
+        cursor.setAttribute("style", `visibility: visible;`);
+    });
+    canvas.addEventListener("mouseleave", () => {
+        cursor.setAttribute("style", `visibility: hidden;`);
     });
 
     canvas.addEventListener("mousedown", mouseDown, false);
