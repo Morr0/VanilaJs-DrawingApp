@@ -29,8 +29,8 @@ function draw(event){
 }
 
 function mouseMoving(event){
-    cursor.setAttribute("style", `top: ${event.pageY}px;
-                                  left: ${event.pageX}px;`);
+    cursor.style.top = `${event.pageY}px`;
+    cursor.style.left = `${event.pageX}px`;
 
     if (drawing){
         draw(event);
@@ -57,9 +57,10 @@ function mouseUp(){
 window.addEventListener("load", () => {
     sizeCanvas();
 
+    cursor = document.getElementById("cursor");
     range = document.getElementById("range");
     colourPicker = document.getElementById("colourPicker");
-    cursor = document.getElementById("cursor");
+    
 
     // 
     context.lineCap = "round";
@@ -67,32 +68,32 @@ window.addEventListener("load", () => {
     // Set event listeners
     // Range events
     range.addEventListener("input", (event) => {
+        // Set size into pen
         userPrefs.size = Number.parseInt(event.target.value);
         canvas.getContext("2d").lineWidth = userPrefs.size;
 
         // Change size of cursor
-        cursor.setAttribute("style", `width: ${1 * userPrefs.size}rem;
-                                      height: ${1* userPrefs.size}rem;`);
+        cursor.style.width = `${1 * userPrefs.size}rem`;
+        cursor.style.height = `${1 * userPrefs.size}rem`;
     });
 
     // Change colour of cursor
     colourPicker.addEventListener("input", (event) => {
         userPrefs.colour = event.target.value;
-        console.log(userPrefs.colour);
         canvas.getContext("2d").strokeStyle = userPrefs.colour;
-        console.log(cursor.style.backgroundColor);
         cursor.style.backgroundColor = userPrefs.colour;
-        console.log(cursor.style.backgroundColor);
-
     });
 
     // Show cursor when inside canvas else hide
-    // canvas.addEventListener("mouseenter", () => {
-    //     cursor.setAttribute("style", `visibility: visible;`);
-    // });
-    // canvas.addEventListener("mouseleave", () => {
-    //     cursor.setAttribute("style", `visibility: hidden;`);
-    // });
+    canvas.addEventListener("mouseenter", () => {
+        cursor.style.visibility = "visible";
+    });
+    canvas.addEventListener("mouseleave", () => {
+        cursor.style.visibility = "hidden";
+
+        // To stop drawing while outside
+        drawing = false;  
+    });
 
     // Movement events
     canvas.addEventListener("mousedown", mouseDown, false);
