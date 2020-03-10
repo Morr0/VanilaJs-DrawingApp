@@ -1,5 +1,3 @@
-import * as util from "./util.js"
-
 const canvas = document.getElementById("canv");
 let context = canvas.getContext("2d");
 
@@ -14,9 +12,11 @@ let cursor;
 let drawing = false;
 
 // Preferences
-let size = 8;
-let colour = "black";
-let userPrefs = util.userPrefTemp;
+let userPrefs = {
+    size: 4,
+    // Hexidecimal in string
+    colour: "black"
+};
 
 function sizeCanvas(){
     canvas.width = window.innerWidth;
