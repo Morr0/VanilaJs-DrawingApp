@@ -1,9 +1,11 @@
-const canvas = document.getElementById("canv");
-let context = canvas.getContext("2d");
+let canvas;
+let context;
 
 // Elements 
 let range;
 let colourPicker;
+
+let downloadElement;
 
 // Fake cursor
 let cursor;
@@ -29,8 +31,8 @@ function draw(event){
 }
 
 function mouseMoving(event){
-    cursor.style.top = `${event.pageY}px`;
-    cursor.style.left = `${event.pageX}px`;
+    cursor.style.top = `${event.pageY +80}px`;
+    cursor.style.left = `${event.pageX - 15}px`;
 
     if (drawing){
         draw(event);
@@ -55,14 +57,17 @@ function mouseUp(){
 }
 
 window.addEventListener("load", () => {
+    canvas = document.getElementById("canvas");
+    context = canvas.getContext("2d");
+
     sizeCanvas();
 
     cursor = document.getElementById("cursor");
     range = document.getElementById("range");
     colourPicker = document.getElementById("colourPicker");
-    
 
-    // 
+    downloadElement = document.getElementById("downloadElement");
+    
     context.lineCap = "round";
 
     // Set event listeners
@@ -73,8 +78,8 @@ window.addEventListener("load", () => {
         canvas.getContext("2d").lineWidth = userPrefs.size;
 
         // Change size of cursor
-        cursor.style.width = `${1 * userPrefs.size}rem`;
-        cursor.style.height = `${1 * userPrefs.size}rem`;
+        cursor.style.width = `${0.1 * userPrefs.size}rem`;
+        cursor.style.height = `${0.1 * userPrefs.size}rem`;
     });
 
     // Change colour of cursor
