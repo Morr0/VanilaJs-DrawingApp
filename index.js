@@ -60,6 +60,7 @@ window.addEventListener("load", () => {
     canvas = document.getElementById("canvas");
     context = canvas.getContext("2d");
 
+    registerServiceWorker();
     sizeCanvas();
 
     cursor = document.getElementById("cursor");
@@ -104,3 +105,10 @@ window.addEventListener("load", () => {
     canvas.addEventListener("mousedown", mouseDown, false);
     canvas.addEventListener("mousemove", mouseMoving, false);
 });
+
+function registerServiceWorker(){
+    if ("serviceWorker" in navigator){
+        navigator.serviceWorker.register("serviceWorker.js", {scope: "/"})
+        .then(() => console.log("Registered service worker"));
+    }
+}

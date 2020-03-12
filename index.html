@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Vanilla JS Drawing app</title>
     <script type="module" defer src="./index.js" ></script>
+    <link rel="manifest" href="./manifest.json">
     <link href="styles.css" rel="stylesheet"/>
+
+    <!-- Icons generated from realfavicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+    <link rel="manifest" href="./icons/site.webmanifest">
+    <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 </head>
 <body>
     <div id="cursor"></div>
     <div>
         <div id="toolbar">
             <div class="itemgroup">
-                <input type="range" id="range" min="1" max="20" value="4">
+                <input type="range" id="range" min="1" max="50" value="4">
             </div>
             <div class="itemgroup">
                 <input type="color" id="colourPicker" value="#000000">
-            </div>
-            <div class="itemgroup">
-                <input type="text" id="saveName" placeholder="File name">
-                <input type="button" id="saveButton" value="save" >
             </div>
         </div>
         <canvas id="canvas"></canvas>
